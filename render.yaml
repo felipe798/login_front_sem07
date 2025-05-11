@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: react-jwt-auth-frontend
+    env: node
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: VITE_API_URL
+        value: https://node-jwt-auth-backend.onrender.com/api
