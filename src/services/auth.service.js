@@ -1,11 +1,16 @@
 // src/services/auth.service.js
 import axios from "axios";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8080/api";
+// La variable de entorno debería ser el dominio base del backend sin '/api'
+// Por ejemplo: https://node-jwt-auth-backend.onrender.com
+const BASE_URL = import.meta.env.VITE_API_URL;
+
+// Para depuración
+console.log("Auth API URL:", BASE_URL);
 
 class AuthService {
   async login(username, password) {
-    const response = await axios.post(`${API_URL}/auth/signin`, {
+    const response = await axios.post(`${BASE_URL}/api/auth/signin`, {
       username,
       password
     });
@@ -22,7 +27,7 @@ class AuthService {
   }
 
   async register(username, email, password) {
-    return axios.post(`${API_URL}/auth/signup`, {
+    return axios.post(`${BASE_URL}/api/auth/signup`, {
       username,
       email,
       password

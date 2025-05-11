@@ -2,11 +2,16 @@
 import axios from "axios";
 import AuthService from "./auth.service";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8080/api";
+// La variable de entorno debería ser solo el dominio base del backend sin '/api'
+// Por ejemplo: https://node-jwt-auth-backend.onrender.com
+const BASE_URL = import.meta.env.VITE_API_URL;
 
-// Crear instancia de axios con URL base
+// Para depuración
+console.log("Base API URL:", BASE_URL);
+
+// Crear instancia de axios con URL base correcta
 const api = axios.create({
-  baseURL: API_URL,
+  baseURL: BASE_URL,
   headers: {
     "Content-Type": "application/json",
   },
@@ -30,6 +35,7 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   (error) => {
+    console.error("API Error:", error.response?.status, error.response?.data);
     if (error.response?.status === 401) {
       // Token inválido - desloguear usuario
       AuthService.logout();
@@ -40,20 +46,21 @@ api.interceptors.response.use(
 );
 
 class ApiService {
+  // Usar las rutas completas que coincidan con el backend
   getPublicContent() {
-    return api.get("/test/all");
+    return api.get("/api/test/all");
   }
 
   getUserContent() {
-    return api.get("/test/user");
+    return api.get("/api/test/user");
   }
 
   getModeratorContent() {
-    return api.get("/test/mod");
+    return api.get("/api/test/mod");
   }
 
   getAdminContent() {
-    return api.get("/test/admin");
+    return api.get("/api/test/admin");
   }
 }
 
